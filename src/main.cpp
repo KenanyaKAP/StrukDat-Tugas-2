@@ -1,87 +1,48 @@
 #include <iostream>
-#include <graphics.h>
+#include <set>
+#include <SFML/Graphics.hpp>
 
-#include <include/pesawat.hpp>
-#include <include/plane.hpp>
-#include <include/tank.hpp>
+#include "gameManager.hpp"
+#include "entity.hpp"
 
-#include <include/utils.hpp>
-#include <include/lines.hpp>
-#include <include/vector2.hpp>
-#include <include/transform.hpp>
-
-using namespace std;
+std::set<Entity*> Entity::entities = std::set<Entity*>();
 
 int main()
 {
-    initwindow(1280, 720);
-    char c;
+    sf::RenderWindow window(sf::VideoMode(1280, 720), "SFML works!", sf::Style::Titlebar | sf::Style::Close);
+    window.setFramerateLimit(60);
+    GameManager GameManager;
+    GameManager.Start();
 
-    // Variable
-    Pesawat musuh1;
-    Plane enemy0;
-    Plane enemy1;
-    Plane enemy2;
-    Plane enemy3;
-    Plane enemy4;
-    Tank player;
+    sf::Clock clock;
 
-    // Start
+    while (window.isOpen())
     {
-        musuh1.Transform.Position = Vector2(500, 500);
-        musuh1.Velocity = Vector2(0, -20);
-        musuh1.rotateSpeed = 1;
+        sf::Event event;
 
-        enemy0.Transform.Position = Vector2(0, 80);
-        enemy1.Transform.Position = Vector2(300, 160);
-        enemy2.Transform.Position = Vector2(600, 240);
-        enemy3.Transform.Position = Vector2(900, 320);
-        enemy4.Transform.Position = Vector2(1200, 400);
+        while (window.pollEvent(event))
+        {
+            switch (event.type)
+            {
+            case sf::Event::Closed:
+                window.close();
+                break;
+            case sf::Event::KeyPressed:
+                if (event.text.unicode == sf::Keyboard::Escape)
+                    window.close();
+            default:
+                break;
+            }
 
-        player.Transform.Position = Vector2(100, 700);
+            GameManager.Event(event);
+        }
+
+        GameManager.Update(clock.restart().asSeconds());
+
+        window.clear();
+        GameManager.Draw(window);
+        window.display();
     }
 
-    do
-    {
-        cleardevice();
-        if (kbhit())
-        {
-            c = getch();
-            if (c == 27) break;
-
-            // cout << (int)c << endl;
-
-            if (c == 'd')
-            {
-                player.Transform.Position.x += 20;
-            }
-
-            if (c == 'a')
-            {
-                player.Transform.Position.x -= 20;
-            }
-
-            if (c == 32)
-            {
-                player.Fire();
-            }
-        }
-        
-        // Update
-        {
-            musuh1.Update();
-            enemy0.Update();
-            enemy1.Update();
-            enemy2.Update();
-            enemy3.Update();
-            enemy4.Update();
-
-            player.Update();
-        }
-
-        delay(17);
-    } while(1);
-
-    closegraph();
     return 0;
 }

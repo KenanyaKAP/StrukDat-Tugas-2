@@ -1,0 +1,46 @@
+hpp:
+
+
+
+
+#pragma once
+#include <iostream>
+#include <SFML/Graphics.hpp>
+
+#include <manager.hpp>
+
+class [] : public Manager
+{
+public:
+    void Start() override;
+    void Event(const sf::Event &event) override;
+    void Loop() override;
+};
+
+
+
+
+cpp:
+
+
+
+
+#include <iostream>
+#include <SFML/Graphics.hpp>
+
+#include <[].hpp>
+
+void []::Start()
+{
+    
+}
+
+void []::Event(const sf::Event &event)
+{
+
+}
+
+void []::Loop()
+{
+    
+}

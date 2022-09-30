@@ -1,5 +1,5 @@
-CXX=g++ 
-CXXFLAGS+= -std=c++17 -O3 -Wall -Wextra -I. -lbgi -lgdi32 -lcomdlg32 -luuid -loleaut32 -lole32
+CXX=C:\MinGW_7.3.0\bin\g++
+CXXFLAGS+= -std=c++17 -O3 -Wall -Wextra -I.\sprites -I.\include -I"C:\SFML-2.5.1\include" -L"C:\SFML-2.5.1\lib" -DSFML_STATIC -lsfml-graphics-s -lsfml-window-s -lsfml-system-s -lopengl32 -lfreetype -lwinmm -lgdi32
 
 OUTPUT=main
 
@@ -9,10 +9,10 @@ OBJECTSDIR=obj
 SOURCES=$(wildcard $(SOURCEDIR)/*.cpp)
 OBJECTS=$(SOURCES:$(SOURCEDIR)/%.cpp=$(OBJECTSDIR)/%.o)
 
-$(OUTPUT): $(OBJECTS)
-	$(CXX) $^ $(CXXFLAGS) -o $@ 
+$(OUTPUT): $(OBJECTS) #Final Output
+	$(CXX) $^ $(CXXFLAGS) -o $@
 
-$(OBJECTSDIR)/%.o: $(SOURCEDIR)/%.cpp
+$(OBJECTSDIR)/%.o: $(SOURCEDIR)/%.cpp #Compile to object
 	$(CXX) $< $(CXXFLAGS) -c -o $@
 
 $(OBJECTS): | $(OBJECTSDIR)
